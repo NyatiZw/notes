@@ -1,0 +1,380 @@
+Introduction to C
+	widely used programming langauge
+	C is a compiled language
+	a compiled language produces a binary file that can be directly exe		ctuted and distributed
+	C is not garbage collected thus have to manage own memory.
+	
+	hello.c
+
+	# include <stdio.h>
+	
+	int main(void) {
+	printf("Hello World!")
+	}
+
+	The above is an example of a hello world program in c from the file 		hello.c
+
+Code description :
+
+	1) First we import the stdio library
+		name means standard input-output library.
+	This library gives us access to input/output functions
+
+C is a small language at its core hence anything not provided in it's core	is provided for by libraries.
+
+Libraries are built by both developers and by the compiler
+
+	2) stdio is the library that provides for the printf() function
+
+	3) the printf() function is wrappeed inside the main() function & is		the entry point for any C program.
+
+So what is a function - this is a routine that takes in an arguement and returns a single value.
+
+in the case of main(void) => it does not take any arguments and it returns an integer hence the use of void and int for integer.
+
+The function has a body that is wrapped in curly brackets, inside the body we have all the code the function needs to run/execute.
+
+	4) printf() is written with no arguement as you can see this is bec		ause somewhere in the stdio library printf is defined.
+		it also has no return value - we pass a string wrapped in 		double qoutes.
+
+How do we execute a C program
+
+C is a compiled language hence to run the program we first need to compile it. Any Linux / macOS computer already comes with a compile, for windows we use WSL. 
+
+gcc is used 
+
+		gcc hello.c -o hello
+			then
+
+		./hello
+
+	5) C is highly optimized and this is also one of the reasons it's good for embedded devices that have a very limited amount of resources.
+
+
+
+Varibales and Types
+
+C is a statically typed language 
+This means that every variable has an associated type and this type is known at compilation.
+In C when we make a variable we have to specify the type at declaration.
+
+
+		int age;
+
+here we initialize variable age with type integer.
+
+ Variable name can contain any uppercase / lowercase letter or digits but cannot start with a digit.
+
+You can also initialize a variable at declaration and specify the inital value  e.g : int age = 37;
+
+Once you declare a variable you can then use it in your code, you can also change it using the = operator.
+
+
+An  example of a variable and changing it 
+
+	# include <stdio.h>
+
+	int main(void) {
+	int age = 0;
+	age = 37.5;
+	printf("%u", age);	
+	} 
+
+here the compiler will raise an errror then convert the decimal number into an integer.
+
+C built-in data types =
+
+	int
+	char
+	short
+	long
+	float
+	double
+	long double
+
+
+Integer Numbers
+
+C provides the following to define integer values
+	-char
+	-int
+	-short
+	-long
+Most cases we'll use int to store an integer but in some cases you might use the other 3 options.
+
+	char type is use to store letters of the ASCII chart or smaller integers from -128 to 127 char takes at least 1 byte while int & short take 2 bytes and long takes 4 bytes.
+
+Unsigned integers
+
+All the above data types we van append with unsigned to start range at 0 and not negative number.
+
+e.g 	unsigned int => 0 - 65 535
+	unsigned char => 0 - 255
+
+
+THe Problem with Overflow.
+
+How do we make sure the numbers do not exceed the limit and what happens when we do?
+
+if you have an unsigned int number 255 and you increament it you get 256 
+but if you have unsigned char 255 and you increament it you get 0 as it resets to the initial value
+f you have unsigned char 255 and add 10 you get 9 (will count from 255 to 0 then up to 9)
+
+
+An example :
+
+# include <stdio.h>
+
+int main (void) {
+	unsigned char j = 255;
+	j = j + 10;
+	printf("%u", j); /* 9 */
+}
+
+
+If you have a signed value then the behaviour is undefined it can give you a large number that varies. As in the example : 
+
+ # include <stdio.h>
+
+int main (void) {
+	j = 255;
+	j = j + 10;\printf("%u", j); /*203968764808374*/
+}
+
+
+In other words c does not take care of what happens when you exceed the limit you have to take care of that yourself. 
+
+Warnings when declaring the wrong type
+
+When you declare a variable and and initialize it with the wrong value the gcc should give you a warning.
+
+it also warns you in direct assignments but not if you increase the number using +=
+
+Floating Point Numbers
+Floating point numbers can represent larger numbers than integers and can represent fractions something that the integer can't.
+
+Using floating point numbers can represent decimals times powers of 10.
+
+
+examples of floating point numbers :
+
+1) 1.29e-3
+2) -2.3e+5
+
+The following types are used to represent numbers with decimal points (floating point types) all can represent both positive and negative numbers.
+	- float
+	- double
+	= long double
+
+The minimum requirement for any c implementation is that float can represent a range between 
+
+	10^-37 and 10^+37
+they are implemented using 32 bits double can represent a bigger set of numbers and long double even more.
+
+to determine the specific size of a type you can write this program for that :
+
+ # include <stdio.h>
+ 
+ int main(void) {
+	printf("char size: %lu bytes\n", sizeof((char));
+	printf("int size: %lu bytes\n", sizeof((int));
+	printf("short size: %lu bytes\n", sizeof((short));
+	printf("long size: %lu bytes\n", sizeof((long));
+	printf("float size: %lu bytes\n", sizeof((float));
+	printf("double size: %lu bytes\n", sizeof((double));
+	printf("long double size: %lu bytes\n", sizeof((long double));
+ }
+
+
+Constants
+
+They are declared in the exact same way that variables are.
+Except they are prepended with the const keyword, and you always needd to specify a value.
+
+examples:- const int age = 35;
+
+It is by convention though that the constants are declared in uppercase.
+
+Here's an example :- const int AGE = 35;
+
+In short variables are in lowercase and constants are in uppercase.
+
+You can also use the following syntax 
+
+	#define AGE 35
+
+In the above example we don't need an operator (=) and we use #define instead of const int
+
+Operators
+
+C offers operators that we can use to operate on data.
+
+there are various groups of operators:
+
+
+Arithmetic operators:- These can be split into binary & unary operators
+
+	Binary (two operands)			Unary (one operand)
+
+ = Assignment	  a=b				+ Unary plus	+a
+ + Addition 	  a+b				- Unary minus	-a
+ - Subtraction 	  a-b				++ Increment a++ ++a
+ * Multiplication a*b				-- Decrement a-- --a
+ / Division	  a/b
+ % Modulo  	  a%b
+
+
+Comparison operators: These are used to compare between two variables(oparands) for example [ a>=b a<=b a==b a<b a>b]
+
+Logic operators: These are used in logical operations for example
+ [!a a & & b a || b] best used for boolean operations.
+
+Compound Assignment operators: used combine arithemetic and assignment operations for example [+= -= *= /= %=]
+
+Miscellaneous operators
+____________________________
+bitwise, pointer, structure 
+____________________________
+
+
+The Ternary operator: This is the only operator that takes in 3 operands for instance: <condition> ? <expression> : <expression>
+
+
+Conditionals
+
+This is the ability to make choices. we want to do X in some cases and Y in others..
+We want to check data and make choices based on the state of that data.
+
+C provides 2 ways to do so : if statement with helper else & switch statement..
+
+An if statement
+=> used to check condition true
+=> then execute the code in the curly brackets
+
+	int a = 1;
+	
+	if (a == 1) {
+		/*Do something*/
+	}
+
+you can append an else block if the condition turns out false
+ 	
+	int a = 1;
+
+	if (a == 2){
+		/*Do something*/
+	} else {
+		/*Do something else*/
+	}
+
+Remember to look out to use the comparison (==) operator instead of the assignment (=) operator or else the condition will always be true
+
+You can also use multiple else blocks by stacking more if statements to it:
+	int a = 1;
+	if (a == 2){
+		/*DO something*/
+	} else if (a == 1) {
+		/*Do something else*/
+	} else {
+		/*Do something else*/
+	}
+
+Switch
+
+in the case that you need to use a lot of if/esle/if statements then the switch statement might be useful here.
+
+You can use a variable as a condition then use a series of case entry points for each value you expect. This is used when you want to get the exact value of a variable.
+
+	int a = 1;
+	
+	switch (a) {
+	  case 0:
+	    /*Do something*/
+	    break;
+	  case 1:
+	    /*Do something else*/
+	    break;
+	  case 2:
+	    /*Do something else*/
+	   break;
+	}
+
+a break keyword is used to avoid the next instance being exectuted before the last one ends.
+
+catch-all case at the end labelled default can be used with the switch statement.
+
+	int a = 0;
+	
+	switch (a) {
+	  case 0:
+	    /*Do something*/
+	    break;
+	  case 1:
+	    /* Do somethingg else*/
+	    break;
+	  case 2:
+	    /* Do something else*/
+	    break;
+	  default:
+	    /* Handle all the other cases*/
+	    break;
+	}
+
+
+
+LOOPS:-
+C offers # forms of loops i.e : FOR loops, WHILE loops, DO WHILE loops.
+They all allow you to iterate over arrays.
+
+FOR Loop:- most commonly used loop.
+	:- using the for keyword we can define the rules of the loop up
+		front and then provide the block that is going to be
+		executed repeatedly.
+
+example:- 
+	  for (int i = 0; i <= 10; i++) {
+		/* Instructions to be repeated*/
+	  }
+
+
+
+* int i = 0; i <= 10; i++  => this block contains 3 parts.
+
+	1) the initial condition (i = 0);
+	2) the test (i <= 10);
+	3) the increament (i++)
+
+We define a loop variable (i) used by convention and (j) is used for nested loops.
+The variable is then increamented (i++) and the cycle continues until we reach 10.
+
+Inside the loop block we can access the variable i to know at which 
+iteration we are at.
+
+	for (int i=0; i<= 10; i++) {
+	   /* Instructions to be repeated*/
+	   printf("u%", i);
+	}
+
+Loops can start from a higher value going down. like below
+:- 	for (int i=10; i>10; i--){
+	   /* Instructions to be repeated*/
+	}
+
+You can also increament the loop variable by 2 or another value. for 
+instance :-
+		for(int i=0; i<=0; i+ 30){
+		  /* Instuctions to be repeated*/
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
